@@ -1,0 +1,114 @@
+<html>
+<head>
+</head>
+<body>
+    <p>------------</p>
+    <p> Ejercicio 5 </p>
+    <p>------------</p>
+
+    <script language="JavaScript"> 
+        /**
+         * ------------
+         * Ejercicio 5
+         * ------------
+         * Elaborar un programa que lea las calificaciones de las n alumnos de los materias de un grupo.
+         * - Que calcule cúantos materias aprobaron.
+         * - El procentaje de aprobación.
+         * - Cuantos reprobaron.
+         * - El promedio de los reprobados.
+         * 
+         */
+
+        //obtiene los valores
+        var alumnos = parseInt(prompt('Ingresar el numero total de alumnos',''));
+        var materias = parseInt(prompt('Ingresar el numero de estudiantes',''));
+
+        //crea la tabla
+        createTabla(alumnos, materias);
+
+
+        function createTabla(alumnos, materias){
+            var body = document.getElementsByTagName("body")[0];
+            var tabla = document.createElement("table");
+
+            for(var i = 0; i < (alumnos+1); i++){//filas
+                filas = document.createElement("tr");
+                filas.setAttribute("placeholder", "Materia");
+                
+                for(var j = 0; j <= (materias+1); j++){//columnas
+                    titulos = document.createElement("th");
+                    columnas = document.createElement("td");
+
+                    //titulo de la fila de materias
+                    if(i==0 && j==0){
+                        titulos.innerHTML = "Alumnos";
+                        filas.appendChild(titulos);
+                    }
+                    else if(i==0 && j!=(materias+1)){
+                        titulos.innerHTML = "Materia "+j;
+                        titulos.setAttribute("coldspan",""+alumnos);
+                        filas.appendChild(titulos);
+                    }
+                    else if (i==0 && j==(materias+1)) {
+                        titulos.innerHTML = "Promedio";
+                        filas.appendChild(titulos);
+                    }
+                    else if(i>=1 && j==0){
+                        columnas.innerHTML = "Alumno "+i;
+                        filas.appendChild(columnas);
+                    }
+                    else if(i>=1 && j!=(materias+1)){//calificaiones
+                        columnas.innerHTML = "<input type='number' value='' id='cal"+i+""+j+"' min='0' max='100'>";
+                        filas.appendChild(columnas);
+                    }
+                    else if(j == (materias+1)){//pormedios
+                        
+                        columnas.innerHTML = "<input type='number' value='00' readonly id='promedio"+i+"' onchange='mostrarPromedio("+i+","+materias+")'>";
+                        //filas.appendChild(titulos);
+                        filas.appendChild(columnas);
+                    }
+                    
+                    
+                }
+                tabla.appendChild(filas);
+                
+            }
+
+            //CSS de la tabla
+            tabla.setAttribute("border", "2");
+            tabla.setAttribute("text-align", "center");
+            tabla.setAttribute("align","center");
+            tabla.setAttribute("border-collapse", "collapse");
+            body.appendChild(tabla);
+            /*
+            var calPromedio =  document.createElement("button");
+            calPromedio.innerHTML += "Calcular Promedio";
+            calPromedio.setAttribute("onclick", "ingresoCalificaion("+alumnos+","+materias+")");
+            body.appendChild(calPromedio);
+            */
+        }
+        
+        function mostrarPromedio(posicionAlumno, materias){
+            //materias = materias-1;
+            var prom = document.getElementById("promedio"+posicionAlumno);
+            var promedioArray = new Array(materias);
+            var i = 0;
+            var suma = 0;
+            var promedio = 0;
+
+            for (var j = 1; j <= materias; j++) {
+                promedioArray[i] = parseInt(document.getElementById("cal"+posicionAlumno+j).value);
+                i++
+            }
+
+            for (var k = 0; k < promedioArray.length; k++) {
+                suma = suma + promedioArray[k];
+            }
+
+            promedio = suma / materias;
+            prom.setAttribute("value",""+promedio);
+        }
+
+    </script>
+</body>
+</html>

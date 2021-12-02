@@ -1,0 +1,65 @@
+<!-- Instrucciones:
+    Cree un formulario con 2 campos para captura de datos y un botón que llame a una función 
+    que haga la validación de los datos introducidos. 
+    Adjunte información antes de cada campo de texto, 
+    sobre las reglas para generar el dato válido correspondiente. Cree una función en JavaScript 
+    que procese el formulario en caso de que la validación sea exitosa y muestre una página HTML
+    con sus datospersonales y de esta tarea.
+    Los datos a validar serán los asignados  por  el  docente,  los cuáles serán enviados en  un  correo  electrónico.
+    
+    Si  es  necesario, investigue las reglas que debe seguir para generar datos asignados.
+    Suba sus códigos en un repositorio git. 
+    Cree un documento con hoja de presentación, 
+    pegue sus códigos y capturas de pantalla demostrando su funcionamiento. 
+    Al final de documento agregue el linka su repositorio.
+    Adjuntesu documento a la tarea.
+
+Datos paravalidar con expresiones regulares:
+
+8.- Hora del día con minutos y segundos -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 8: hora del dia con minutos y segundos</title>
+</head>
+<body>
+    <h1>Formulario para hora del día</h1>
+
+    <form name="Horario"   action="Datos Personales.html">
+        <h2>Ingrese la hora actual</h2>
+        <p>Ejemplo1: HH:MM:SS</p>
+        <p>Ejemplo2: HH:MM:SS A.M./P.M.</p>
+        <input type="text" id="hora" ><br><br>
+
+        <input type="button" value="Continuar" onclick="verificar()">
+    </form> 
+
+    <script language="javascript">
+        function verificar(){
+            //agregar expresion regular
+            var hora = document.Horario.hora.value;
+
+            //expresiones regulares
+            const exRegular12 = /^(?:0?[1-9]|1[0-2]):[0-5][0-9]:[0-5][0-9]\s?(?:[aApP](\.?)[mM])(\.?)?$/;
+            const exRegular24 = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/
+            
+            //valida la hora con las expresiones regulaes
+            if (exRegular12.test(hora) == true) {
+              alert("La hora fue escrita en sistema de 12 horas");
+              document.Horario.submit();
+            }//Fin del if
+            else if (exRegular24.test(hora) == true) {
+              alert("La hora fue escrita en sistema de 24 horas");
+              document.Horario.submit();
+            }//Fin del else if
+            else alert("La hora fue mal escrita, vuelta a intentarlo");
+
+        }//Fin de funcion verificar
+    </script>
+    
+</body>
+</html>

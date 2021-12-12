@@ -10,13 +10,32 @@
 
 <div id="demo">
 <button type="button" onclick="loadXMLDoc()">Change Content</button>
+<button type="button" onclick="bandera()">Get Flag</button>
 </div>
+
 
 <script>
 
 let respJson = {};
 function loadXMLDoc() {
-  var xhttp = new XMLHttpRequest();
+
+  fetch('https://restcountries.com/v3.1/name/mexico')
+    .then(response => response.json())
+    .then(function(data) {
+      //console.log(data[0].name.common);
+      body = document.getElementsByTagName("body")[0];
+      pais = document.createElement('h1');
+      pais.innerHTML = data[0].name.common;
+      body.appendChild(pais);
+      /*
+      console.log(data[0].flag);
+      bandera = document.createElement('h1');
+      bandera.innerHTML = data[0].flag;
+      body.appendChild(bandera);
+      */
+    });
+  
+  /*
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
     	respJson = JSON.parse(this.responseText);
@@ -25,7 +44,18 @@ function loadXMLDoc() {
   };
   xhttp.open("GET", "https://restcountries.com/v3.1/name/mexico", true);
   xhttp.send();
+  */
+  
 }
+
+function bandera(){
+  fetch('https://flagcdn.com/256x192/mx.png')
+    .then(res => {
+      console.log(res);
+    });
+    
+}
+
 </script>
 
 </body>

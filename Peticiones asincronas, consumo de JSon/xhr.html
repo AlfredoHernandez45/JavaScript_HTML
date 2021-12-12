@@ -6,55 +6,59 @@
 	<title>Peticiones asíncronas, consumo de JSon</title>
 </head>
 <body>
-<h2>Using the FETCH API</h2>
+  <h2>Using the FETCH API</h2>
 
-<div id="demo">
-<button type="button" onclick="loadXMLDoc()">Change Content</button>
-<button type="button" onclick="bandera()">Get Flag</button>
-</div>
+  <button type="button" onclick="loadFetchDoc()">Change Content</button>
+  <button type="button" onclick="bandera()">Get Flag</button>
 
+  <script>
 
-<script>
+    function loadFetchDoc() {
 
-function loadXMLDoc() {
+      fetch('https://restcountries.com/v3.1/name/mexico')//URL del pais de Mexico
+        .then(res => res.json())//Obtiene una respuesta en JSON
+        .then(function(data) {//Obtienen los datos en un arreglo
+          
+          body = document.getElementsByTagName("body")[0];//Crea el elemento body
+          pais = document.createElement('h1');//Crea el titulo h1 
+          pais.innerHTML = data[0].name.common;//De los datos obtiene el nombre del pais y le asigna al titulo
+          body.appendChild(pais);//Imprime el pais
 
-  fetch('https://restcountries.com/v3.1/name/mexico')
-    .then(res => res.json())
-    .then(function(data) {
-      body = document.getElementsByTagName("body")[0];
-      pais = document.createElement('h1');
-      pais.innerHTML = data[0].name.common;
-      body.appendChild(pais);
+        });//FIN de fetch
+      /*
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          respJson = JSON.parse(this.responseText);
+          document.getElementById("demo").innerHTML = respJson[0].name.common;
+        }
+      };
+      xhttp.open("GET", "https://restcountries.com/v3.1/name/mexico", true);
+      xhttp.send();
+      */
+      
+    }//FIN de loadFetchDoc()
 
-    });
-  /*
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-    	respJson = JSON.parse(this.responseText);
-      document.getElementById("demo").innerHTML = respJson[0].name.common;
-    }
-  };
-  xhttp.open("GET", "https://restcountries.com/v3.1/name/mexico", true);
-  xhttp.send();
-  */
-  
-}
+    function bandera(){
+      
+      fetch('https://flagcdn.com/256x192/mx.png')//URL de la imagen
+        .then(res => res.blob())//Se convierte la respuesta (imagen) obtenida a blob
+        .then(function(blob) {
+          
+          var body = document.getElementsByTagName("body")[0];
+          parrafo = document.createElement("p");
+          parrafo.innerHTML = "<br>";//Saldo de lina
+          body.appendChild(parrafo);
+          
+          var ImagneURL = URL.createObjectURL(blob);//Ver el objeto en el URL
+          var flagPais = new Image();
+          flagPais.src = ImagneURL;//Se convierte nuevamente en imagen
+          document.getElementsByTagName('body')[0].appendChild(flagPais)//Muestra la imagen 
+          
 
-function bandera(){
-  
-  fetch('https://flagcdn.com/256x192/mx.png')
-    .then(res => res.blob())
-    .then(blob => {
-      var ImagneURL = URL.createObjectURL(blob);
-      var flagPais = new Image();
-      flagPais.src = ImagneURL;
-      document.getElementsByTagName('body')[0].appendChild(flagPais)
+        });//FIN de fech
+    }//FIN de bandera()
 
-    });
-    
-}
-
-</script>
+  </script>
 
 </body>
 </html>

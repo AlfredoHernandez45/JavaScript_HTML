@@ -7,6 +7,14 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <button type="button" submit() onclick="paginaWeb()">Obtener Datos</button>
+    <script>
+        function paginaWeb(){
+            fetch('https://covidtracking.com/data/api')
+            .then(res => res.json())
+            .then(data => data)
+            .then(error => console.error());
+        }
+    </script>
 </body>
 </html>

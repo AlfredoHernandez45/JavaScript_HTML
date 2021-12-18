@@ -4,17 +4,73 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Llamar a la pagina web</title>
+    <link rel="stylesheet" href="segundoDoc.html">
 </head>
 <body>
-    <button type="button" submit() onclick="paginaWeb()">Obtener Datos</button>
-    <script>
+    <!--<button name="boton" type="button" action="segundoDoc"  onclick="paginaWeb()">Obtener Datos</button>-->
+    <!-- <a href="segundoDoc.html" target="_blank">segunda pagina</a>-->
+
+    <script lenguage="JavaScript">
+        //Crear el elemento body
+        var body = document.getElementsByTagName("body")[0];
+        //Crear el elemento iframe
+        var pag = document.createElement("iframe");
+        //Crear el elemento boton
+        var boton = document.createElement("button");
+        
+        //Crear boton
+        boton.setAttribute("href", "segundoDoc.html");
+        boton.setAttribute("target", "_blank");
+        boton.innerHTML = "<input type='button' value='Obtener Datos' name='boton' id='boton' onclick='paginaWeb()'>";
+       
+        body.appendChild(boton);
+        //body.appendChild();
+        /*
+        Llamar a la funcion, mandar los datos al local storage
+        */
         function paginaWeb(){
-            fetch('https://covidtracking.com/data/api')
+
+            //Llamar a la pagina
+            fetch('https://api.covidtracking.com/v1/states/ca/20200501.json')
             .then(res => res.json())
-            .then(data => data)
-            .then(error => console.error());
+            .then(function(data) {
+                
+                var datos = data;
+                //Convierte el objeto en datos
+                localStorage.setItem("datos", JSON.stringify(datos));
+                
+                obtenerLocalStorage();
+                //document.boton.submit();
+
+                //manda a llamar al segundo documento
+                //pag.setAttribute("src", "segundoDoc.html");
+                //body.appendChild(pag);
+                
+                 //var fecha = JSON.parse(localStorage.getItem("checkTimEt"));
+                //console.log(datos);
+                //document.boton.submit();
+            })
+            .then(error => console.log("error"));//Validar porque sale este error
+            
         }
+
+        /*
+        Obtener los datos del Local Storage
+        */
+        function obtenerLocalStorage(){
+            //if()
+            //var nombre = localStorage.getItem("");
+            //console.log();
+
+            //obtener el objeto
+            var objeto = JSON.parse(localStorage.getItem("datos"));
+            console.log(objeto.state);
+            document
+        }
+        
+
+       
     </script>
 </body>
 </html>

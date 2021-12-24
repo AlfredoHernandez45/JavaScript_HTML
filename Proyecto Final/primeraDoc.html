@@ -5,9 +5,45 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Llamar a la pagina web</title>
-    <link rel="stylesheet" href="segundoDoc.html">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
 <body>
+
+    <div class="container-fluid">
+        <div class="jumbotron text-center" style="background-color: rgb(48, 184, 208);" >
+            <div class="d-flex justify-content-center align-items-center"  style="background-image: url('	https://healthmatters.nyp.org/wp-content/uploads/2020/03/Article-hero.jpg'); height: 35vh;">
+                <h1 style="color: white;">Registros de la Pandemia</h1>
+            </div>
+        </div>
+        
+        <form>
+            <div class="md-3">
+                <p class="fs-2" >
+                    Para acceder a la información ingrese usuario y contraseña, de no tenerlo favor de registrarse
+                </p>
+                <!--Registrar usuario-->
+                <a href="segundoDoc.html">Registrar Usuario</a><br><br>
+                <!--Ingresar usuario-->
+                <label for="usuario" class="form-label">Usuario</label>
+                <input type="email" class="form-control" id="usuario">
+            </div>
+            <br><br>
+            <div class="mb-3">
+                <!--Ingresar contraseña-->
+              <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Acepto los terminos</label>
+            </div>
+            <!--Botonf-->
+            <button type="button" onclick="paginaWeb()" class="btn btn-primary">Submit</button>
+          </form>
+          <br><br>
+    
     <!--<button name="boton" type="button" action="segundoDoc"  onclick="paginaWeb()">Obtener Datos</button>-->
     <!-- <a href="segundoDoc.html" target="_blank">segunda pagina</a>-->
 
@@ -18,13 +54,18 @@
         var pag = document.createElement("iframe");
         //Crear el elemento boton
         var boton = document.createElement("button");
+        var boton2 = document.createElement("button");
+        //Crear un link
+        var link = document.createElement("link");
         
         //Crear boton
-        boton.setAttribute("href", "segundoDoc.html");
-        boton.setAttribute("target", "_blank");
+        //boton.setAttribute("href", "segundoDoc.html");
+        //boton.setAttribute("target", "_blank");
         boton.innerHTML = "<input type='button' value='Obtener Datos' name='boton' id='boton' onclick='paginaWeb()'>";
+        //boton2.innerHTML = "<input type='button' value='Guardar Datos' name='boton2' id='boton2' onclick=''>";
        
         body.appendChild(boton);
+        //body.appendChild(boton2);
         //body.appendChild();
         /*
         Llamar a la funcion, mandar los datos al local storage
@@ -32,15 +73,20 @@
         function paginaWeb(){
 
             //Llamar a la pagina
-            fetch('https://api.covidtracking.com/v1/states/ca/20200501.json')
+            fetch('https://api.covidtracking.com/v1/us/daily.json')
             .then(res => res.json())
             .then(function(data) {
                 
+                try{
                 var datos = data;
                 //Convierte el objeto en datos
                 localStorage.setItem("datos", JSON.stringify(datos));
                 
                 obtenerLocalStorage();
+                }
+                catch(error){
+                    console.log("surgio un error");
+                }
                 //document.boton.submit();
 
                 //manda a llamar al segundo documento
@@ -50,8 +96,7 @@
                  //var fecha = JSON.parse(localStorage.getItem("checkTimEt"));
                 //console.log(datos);
                 //document.boton.submit();
-            })
-            .then(error => console.log("error"));//Validar porque sale este error
+            });//Validar porque sale este error
             
         }
 
@@ -64,9 +109,13 @@
             //console.log();
 
             //obtener el objeto
+
             var objeto = JSON.parse(localStorage.getItem("datos"));
-            console.log(objeto.state);
-            document
+            console.log(objeto[0].dateChecked);
+            link.setAttribute("href","segundoDoc.html");
+            //body.innerHTML(link);
+            body.appendChild(link)
+            //document
         }
         
 

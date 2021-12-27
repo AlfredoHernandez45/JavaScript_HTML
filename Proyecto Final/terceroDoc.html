@@ -23,7 +23,7 @@
 
     <div class="table-responsive">
         <table class="table align-middle">
-            <!--Encabezado-->
+            <!--Encabezado
             <thead>
                 <tr class="table-dark">
                   <th scope="col">Fecha</th>
@@ -32,16 +32,11 @@
                   <th scope="col">Negativos</th>
                   <th scope="col">death</th>
                   <th scope="col">hospitalized</th>
-                  <th scope="col">totalTestResults</th>
                   <th scope="col">deathIncrease</th>
                   <th scope="col">hospitalizedIncrease</th>
-                  <th scope="col">negativeIncrease</th>
-                  <th scope="col">positiveIncrease</th>
-                  <th scope="col">totalTestResultsIncrease</th>
-                  <th scope="col">hash</th>
                   
                 </tr>
-              </thead>
+              </thead>-->
               <!--
               <tbody>
                 <tr>
@@ -69,93 +64,209 @@
     
 
     <script>
-        class info{
-            constructor(date, states, positive, negative, pending, hospitalizedCurrently, hospitalizedCumulative, inIcuCurrently, inIcuCumulative, onVentilatorCurrently, onVentilatorCumulative, dateChecked, death, hospitalized, totalTestResults, lastModified, recovered, total, posNeg, deathIncrease, hospitalizedIncrease, negativeIncrease, positiveIncrease, totalTestResultsIncrease, hash){
-                this.date = date;
-                this.states = states;
-                this.positive = positive;
-                this.nevative = negative;
-                this.pending = pending;
-                this.hospitalizedCurrently = hospitalizedCurrently;
-                this.hospitalizedCumulative = hospitalizedCumulative; 
-                this.inIcuCurrently = inIcuCurrently;
-                this.inIcuCumulative = inIcuCumulative;
-                this.onVentilatorCurrently = onVentilatorCurrently;
-                this.onVentilatorCumulative = onVentilatorCumulative;
-                this.dateChecked = dateChecked;
-                this.death = death;
-                this.hospitalized = hospitalized;
-                this.totalTestResults = totalTestResults;
-                this.lastModified = lastModified;
-                this.recovered = recovered;
-                this.total = total; 
-                this.posNeg = posNeg;
-                this.deathIncrease = deathIncrease;
-                this.hospitalizedIncrease = hospitalizedIncrease;
-                this.negativeIncrease = negativeIncrease;
-                this.positiveIncrease = positiveIncrease;
-                this.totalTestResultsIncrease = totalTestResultsIncrease;
-                this.hash = hash;
+        class Info{
+                #date = "";
+                #states = "";
+                #positive = "";
+                #nevative = "";
+                #death = "";
+                #hospitalized = "";
+                #deathIncrease = "";
+                #hospitalizedIncrease = "";
+                
+
+            set date(date){
+                this.#date = date;
+            }
+            set states(states){
+                this.#states = states;
+            }
+            set positive(positive){
+                this.#positive = positive;
+            }
+            set negative(negative){
+                this.#nevative = negative;
+            }
+            set death(death){
+                this.#death = death;
+            }
+            set hospitalized(hospitalized){
+                this.#hospitalized = hospitalized;
+            }
+            set deathIncrease(deathIncrease){
+                this.#deathIncrease = deathIncrease;
+            }
+            set hospitalizedIncrease(hospitalizedIncrease){
+                this.#hospitalizedIncrease = hospitalizedIncrease;
+            }
+
+            get date(){
+                return this.#date;
+            }
+            get states(){
+                return this.#states;
+            }
+            get positive(){
+                return this.#positive;
+            }
+            get negative(){
+                return this.#nevative;
+            }
+            get death(){
+                return this.#death;
+            }
+            get hospitalized(){
+                return this.#hospitalized;
+            }
+            get deathIncrease(){
+                return this.#deathIncrease;
+            }
+            get  hospitalizedIncrease(){
+                return this.#hospitalizedIncrease;
             }
         }
 
-            // Obtener la referencia del elemento body
-            var body = document.getElementsByTagName("body")[0];
-
-            // Crea un elemento <table> y un elemento <tbody>
-            var boton = document.createElement("button");
-            var div = document.createElement("div");
-            var tabla   = document.createElement("table");
-            var tblBody = document.createElement("tbody");
-            
-        /*
+        function pescarJson(){
+            //Crerar Array
+            this.users = new Array();
+        
             //crear las celdas del encabezado 
             fetch('https://api.covidtracking.com/v1/us/daily.json')
             .then(res => res.json())
             .then(function(data){
                 try{
-
+                    //Datos mandados al local storage
                     localStorage.setItem("datos", JSON.stringify(data));
-
+                    //Datos obtenidos del local storage
                     var objeto = JSON.parse(localStorage.getItem("datos"));
-                    
+
                     for(var i=0; i<66; i++){
                         // Crea las hileras de la tabla
                         var hilera = document.createElement("tr");
-                        
+                            
                         //Solo informacion del anio 2021 en adelante
                         if(objeto[i].date > 20201231){
-                            for (var j = 0; j < 2; j++) {
-                                // Crea un elemento <td> y un nodo de texto, haz que el nodo de
-                                // texto sea el contenido de <td>, ubica el elemento <td> al final
-                                // de la hilera de la tabla
-                                var celda = document.createElement("td");
-                                var textoCelda = document.createTextNode("celda en la hilera "+i+", columna "+j);
-                                celda.appendChild(textoCelda);
-                                hilera.appendChild(celda);
-                            }
-                            // agrega la hilera al final de la tabla (al final del elemento tblbody)
-                            tblBody.appendChild(hilera);
+
+                            //Asignar la informacion 
+                            var inform = new Info();//nuevo objeto
+                            //Guardar cada dato en la calse Info
+                            inform.date = objeto[i].date;
+                            inform.states = objeto[i].states;
+                            inform.positive = objeto[i].positive;
+                            inform.negative = objeto[i].negative;
+                            inform.death = objeto[i].death;
+                            inform.hospitalized = objeto[i].hospitalized;
+                            inform.deathIncrease = objeto[i].deathIncrease;
+                            inform.hospitalizedIncrease = objeto[i].hospitalizedIncrease;
+
+                            //Guardar el objeto en un array
+                            users.push(inform);
+                            
                         }
                     }
-                    
-                    
-                    
+                        
                 }catch(error){
                     console.log("surgio un error");
                 }
             });
+        }
+
+        
+        // Obtener la referencia del elemento body
+        var body = document.getElementsByTagName("body")[0];
+
+        // Crea un elemento <table> y un elemento <tbody>
+        var boton = document.createElement("button");
+        var div = document.createElement("div");
+        var tabla   = document.createElement("table");
+        var tblBody = document.createElement("tbody");
+        var thead = document.createElement("thead");
+        var th = document.createElement("th");
+
+
+
+
+        /*
+        this.users = new Array();
+        
+        //crear las celdas del encabezado 
+        fetch('https://api.covidtracking.com/v1/us/daily.json')
+        .then(res => res.json())
+        .then(function(data){
+            try{
+                //Datos mandados al local storage
+                localStorage.setItem("datos", JSON.stringify(data));
+                //Datos obtenidos del local storage
+                var objeto = JSON.parse(localStorage.getItem("datos"));
+
+                for(var i=0; i<66; i++){
+                    // Crea las hileras de la tabla
+                    var hilera = document.createElement("tr");
+                        
+                    //Solo informacion del anio 2021 en adelante
+                    if(objeto[i].date > 20201231){
+
+                        //Asignar la informacion 
+                        var inform = new Info();
+                        inform.date = objeto[i].date;
+                        inform.states = objeto[i].states;
+                        inform.positive = objeto[i].positive;
+                        inform.negative = objeto[i].negative;
+                        inform.death = objeto[i].death;
+                        inform.hospitalized = objeto[i].hospitalized;
+                        inform.deathIncrease = objeto[i].deathIncrease;
+                        inform.hospitalizedIncrease = objeto[i].hospitalizedIncrease;
+
+                        users.push(inform);
+                        
+
+                        var celda = document.createElement("td");
+                        
+
+                        //console.log((users[i].date));
+                        var fecha = document.createTextNode(users[i].states);
+
+                        celda.appendChild(fecha);
+                        hilera.appendChild(celda);
+                        /*
+                        var estado = document.createTextNode(objeto[i].states);
+                        celda.appendChild(estado);
+                        hilera.appendChild(celda);
+
+                        
+                        for (var j = 0; j < 13; j++) {
+                            //var celda = document.createElement("td");
+                            //var fecha = document.createTextNode(document[i].date);
+                            //celda.appendChild(textoCelda);
+                            //hilera.appendChild(celda);
+                            
+                            // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+                            // texto sea el contenido de <td>, ubica el elemento <td> al final
+                            // de la hilera de la tabla
+                            
+                        }
+                        // agrega la hilera al final de la tabla (al final del elemento tblbody)
+                        
+                        tblBody.appendChild(hilera);
+                    }
+                }
+                    
+            }catch(error){
+                console.log("surgio un error");
+            }
+        });
         // posiciona el <tbody> debajo del elemento <table>
         tabla.setAttribute("class", "table align-middle");
-                    tabla.appendChild(tblBody);
-                    //
-                    div.setAttribute("class", "table-responsive");
-                    div.appendChild(tabla);
-                    // appends <table> into <body>
-                    body.appendChild(div);
-           */ 
+        tabla.appendChild(tblBody);
+        tabla.appendChild(thead);
+        //
+        div.setAttribute("class", "table-responsive");
+        div.appendChild(tabla);
+        // appends <table> into <body>
+        body.appendChild(div);           
+           
 
-           /*
+           
         // Crea las celdas
         for (var i = 0; i < 66; i++) {
             // Crea las hileras de la tabla

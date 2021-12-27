@@ -10,6 +10,16 @@
    
 </head>
 <body>
+    <!--
+    <div class="list-group">
+        <a href="https://api.covidtracking.com/v1/us/20200501.json" class="list-group-item list-group-item-action active" aria-current="true">
+          The current link item
+        </a>
+        <a href="#" class="list-group-item list-group-item-action">A second link item</a>
+        <a href="#" class="list-group-item list-group-item-action">A third link item</a>
+        <a href="#" class="list-group-item list-group-item-action">A fourth link item</a>
+        <a class="list-group-item list-group-item-action disabled">A disabled link item</a>
+      </div>-->
 
     <div class="table-responsive">
         <table class="table align-middle">
@@ -20,22 +30,9 @@
                   <th scope="col">Estados</th>
                   <th scope="col">Positivos</th>
                   <th scope="col">Negativos</th>
-                  <th scope="col">Pending</th>
-                  <th scope="col">Hospitalizacion frecuente</th>
-                  <th scope="col">Hospoitalizacion acomulativa</th>
-                  <th scope="col">inIcuCurrently</th>
-                  <th scope="col">inIcuCumulative</th>
-                  <th scope="col">onVentilatorCurrently</th>
-                  <th scope="col">onVentilatorCurrently</th>
-                  <th scope="col">onVentilatorCumulative</th>
-                  <th scope="col">dateChecked</th>
                   <th scope="col">death</th>
                   <th scope="col">hospitalized</th>
                   <th scope="col">totalTestResults</th>
-                  <th scope="col">lastModified</th>
-                  <th scope="col">recovered</th>
-                  <th scope="col">total</th>
-                  <th scope="col">posNeg</th>
                   <th scope="col">deathIncrease</th>
                   <th scope="col">hospitalizedIncrease</th>
                   <th scope="col">negativeIncrease</th>
@@ -45,7 +42,7 @@
                   
                 </tr>
               </thead>
-
+              <!--
               <tbody>
                 <tr>
                   <th scope="row">1</th>
@@ -64,39 +61,265 @@
                   <td colspan="2">Larry the Bird</td>
                   <td>@twitter</td>
                 </tr>
-              </tbody>
+              </tbody>-->
         </table>
         </div>
-
-        <div id="select-wrapper-869169" class="select-wrapper"><div class="form-outline"><input class="form-control select-input placeholder-active active" type="text" role="listbox" aria-multiselectable="false" aria-disabled="false" aria-haspopup="true" aria-expanded="false" readonly=""><span class="select-arrow"></span><div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 0px;"></div><div class="form-notch-trailing"></div></div></div><select name="entries" class="datatable-select select select-initialized">
-            <option value="10" selected="">10</option>
-      <option value="25">25</option>
-      <option value="50">50</option>
-      <option value="200">200</option>
-          </select></div>
-
-        <div id="select-wrapper-869169" class="select-wrapper">
-            <div class="form-outline">
-                <input class="form-control select-input placeholder-active active" type="text" role="listbox" aria-multiselectable="false" aria-disabled="false" aria-haspopup="true" aria-expanded="false" readonly="">
-                <span class="select-arrow">
-                    ::before
-                </span>
-
-            </div>
-
-        </div>
-
-        <div class="datatable-pagination-nav">
-            1 - 10 of 14
-        </div>
-
       
-
-    <button type="button" onclick="paginaWeb()">Obtener Datos</button>
+    <a href="primeraDoc.html">Cerrar Sesion</a>
     
 
     <script>
+        class info{
+            constructor(date, states, positive, negative, pending, hospitalizedCurrently, hospitalizedCumulative, inIcuCurrently, inIcuCumulative, onVentilatorCurrently, onVentilatorCumulative, dateChecked, death, hospitalized, totalTestResults, lastModified, recovered, total, posNeg, deathIncrease, hospitalizedIncrease, negativeIncrease, positiveIncrease, totalTestResultsIncrease, hash){
+                this.date = date;
+                this.states = states;
+                this.positive = positive;
+                this.nevative = negative;
+                this.pending = pending;
+                this.hospitalizedCurrently = hospitalizedCurrently;
+                this.hospitalizedCumulative = hospitalizedCumulative; 
+                this.inIcuCurrently = inIcuCurrently;
+                this.inIcuCumulative = inIcuCumulative;
+                this.onVentilatorCurrently = onVentilatorCurrently;
+                this.onVentilatorCumulative = onVentilatorCumulative;
+                this.dateChecked = dateChecked;
+                this.death = death;
+                this.hospitalized = hospitalized;
+                this.totalTestResults = totalTestResults;
+                this.lastModified = lastModified;
+                this.recovered = recovered;
+                this.total = total; 
+                this.posNeg = posNeg;
+                this.deathIncrease = deathIncrease;
+                this.hospitalizedIncrease = hospitalizedIncrease;
+                this.negativeIncrease = negativeIncrease;
+                this.positiveIncrease = positiveIncrease;
+                this.totalTestResultsIncrease = totalTestResultsIncrease;
+                this.hash = hash;
+            }
+        }
+
+            // Obtener la referencia del elemento body
+            var body = document.getElementsByTagName("body")[0];
+
+            // Crea un elemento <table> y un elemento <tbody>
+            var boton = document.createElement("button");
+            var div = document.createElement("div");
+            var tabla   = document.createElement("table");
+            var tblBody = document.createElement("tbody");
+            
+        /*
+            //crear las celdas del encabezado 
+            fetch('https://api.covidtracking.com/v1/us/daily.json')
+            .then(res => res.json())
+            .then(function(data){
+                try{
+
+                    localStorage.setItem("datos", JSON.stringify(data));
+
+                    var objeto = JSON.parse(localStorage.getItem("datos"));
+                    
+                    for(var i=0; i<66; i++){
+                        // Crea las hileras de la tabla
+                        var hilera = document.createElement("tr");
+                        
+                        //Solo informacion del anio 2021 en adelante
+                        if(objeto[i].date > 20201231){
+                            for (var j = 0; j < 2; j++) {
+                                // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+                                // texto sea el contenido de <td>, ubica el elemento <td> al final
+                                // de la hilera de la tabla
+                                var celda = document.createElement("td");
+                                var textoCelda = document.createTextNode("celda en la hilera "+i+", columna "+j);
+                                celda.appendChild(textoCelda);
+                                hilera.appendChild(celda);
+                            }
+                            // agrega la hilera al final de la tabla (al final del elemento tblbody)
+                            tblBody.appendChild(hilera);
+                        }
+                    }
+                    
+                    
+                    
+                }catch(error){
+                    console.log("surgio un error");
+                }
+            });
+        // posiciona el <tbody> debajo del elemento <table>
+        tabla.setAttribute("class", "table align-middle");
+                    tabla.appendChild(tblBody);
+                    //
+                    div.setAttribute("class", "table-responsive");
+                    div.appendChild(tabla);
+                    // appends <table> into <body>
+                    body.appendChild(div);
+           */ 
+
+           /*
+        // Crea las celdas
+        for (var i = 0; i < 66; i++) {
+            // Crea las hileras de la tabla
+            var hilera = document.createElement("tr");
+
+            for (var j = 0; j < 13; j++) {
+                while(i<13){
+                    var thead = document.createElement("thead");
+                    var th = document.createElement("th");
+
+                    th.innerHTML += "<th scope='col'>Fecha</th>";
+                    //body.appendChild(th);
+                }
+            // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+            // texto sea el contenido de <td>, ubica el elemento <td> al final
+            // de la hilera de la tabla
+            var celda = document.createElement("td");
+            var textoCelda = document.createTextNode("celda en la hilera "+i+", columna "+j);
+            celda.appendChild(textoCelda);
+            hilera.appendChild(celda);
+            }
+
+            // agrega la hilera al final de la tabla (al final del elemento tblbody)
+            tblBody.appendChild(hilera);
+        }
+        // posiciona el <tbody> debajo del elemento <table>
+        tabla.setAttribute("class", "table align-middle");
+        tabla.appendChild(tblBody);
+        //
+        div.setAttribute("class", "table-responsive");
+        div.appendChild(tabla);
+        // appends <table> into <body>
+        body.appendChild(div);
+
+                */
         
+
+        /*
+        function genera_tabla() {
+            // Obtener la referencia del elemento body
+            var body = document.getElementsByTagName("body")[0];
+
+            // Crea un elemento <table> y un elemento <tbody>
+            var boton = document.createElement("button");
+            var div = document.createElement("div");
+            var tabla   = document.createElement("table");
+            var tblBody = document.createElement("tbody");
+            var thead = document.createElement("thead");
+
+            //crear las celdas del encabezado 
+            fetch('https://api.covidtracking.com/v1/us/daily.json')
+            .then(res => res.json())
+            .then(function(data){
+                try{
+
+                    localStorage.setItem("datos", JSON.stringify(data));
+
+                    var objeto = JSON.parse(localStorage.getItem("datos"));
+                    
+                    for(var i=0; i<66; i++){
+                        // Crea las hileras de la tabla
+                        var hilera = document.createElement("tr");
+                        
+                        //Solo informacion del anio 2021 en adelante
+                        if(objeto[i].date > 20201231){
+                            for (var j = 0; j < 2; j++) {
+                                // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+                                // texto sea el contenido de <td>, ubica el elemento <td> al final
+                                // de la hilera de la tabla
+                                var celda = document.createElement("td");
+                                var textoCelda = document.createTextNode("celda en la hilera "+i+", columna "+j);
+                                celda.appendChild(textoCelda);
+                                hilera.appendChild(celda);
+                            }
+                            // agrega la hilera al final de la tabla (al final del elemento tblbody)
+                            tblBody.appendChild(hilera);
+                        }
+                    }
+                    
+                    // posiciona el <tbody> debajo del elemento <table>
+                    tabla.setAttribute("class", "table align-middle");
+                    tabla.appendChild(tblBody);
+                    //
+                    div.setAttribute("class", "table-responsive");
+                    div.appendChild(tabla);
+                    // appends <table> into <body>
+                    body.appendChild(div);
+                    
+                }catch(error){
+                    console.log("surgio un error");
+                }
+            });
+        
+            // Crea las celdas
+        for (var i = 0; i < 2; i++) {
+            // Crea las hileras de la tabla
+            var hilera = document.createElement("tr");
+
+            for (var j = 0; j < 2; j++) {
+            // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+            // texto sea el contenido de <td>, ubica el elemento <td> al final
+            // de la hilera de la tabla
+            var celda = document.createElement("td");
+            var textoCelda = document.createTextNode("celda en la hilera "+i+", columna "+j);
+            celda.appendChild(textoCelda);
+            hilera.appendChild(celda);
+            }
+
+            // agrega la hilera al final de la tabla (al final del elemento tblbody)
+            tblBody.appendChild(hilera);
+        }
+        // posiciona el <tbody> debajo del elemento <table>
+        tabla.setAttribute("class", "table align-middle");
+        tabla.appendChild(tblBody);
+        //
+        div.setAttribute("class", "table-responsive");
+        div.appendChild(tabla);
+        // appends <table> into <body>
+        body.appendChild(div);
+        
+        // modifica el atributo "border" de la tabla y lo fija a "2";
+        //tabla.setAttribute("border", "2");
+        }//FIN DE TABLA
+        */
+        
+        /*
+        function paginaWeb(){
+        //Llamar a la pagina
+        fetch('https://api.covidtracking.com/v1/us/daily.json')
+        .then(res => res.json())
+        .then(function(data) {
+            
+            try{
+            var datos = data;
+            //Convierte el objeto en datos
+            localStorage.setItem("datos", JSON.stringify(datos));
+            
+            obtenerLocalStorage();
+            }
+            catch(error){
+                console.log("surgio un error");
+            }
+            
+        });//Validar porque sale este error
+
+        }
+
+        /*
+        Obtener los datos del Local Storage
+        
+        function obtenerLocalStorage(){
+
+        //obtener el objeto, aplicar un parse para obtener los datos
+        var objeto = JSON.parse(localStorage.getItem("datos"));
+        console.log(objeto[0].dateChecked);
+
+        return objeto[0].date;
+        //link.setAttribute("href","segundoDoc.html");
+        //body.innerHTML(link);
+        //body.appendChild(link)
+        //document
+        } 
+        */
+
     </script>
 </body>
 </html>

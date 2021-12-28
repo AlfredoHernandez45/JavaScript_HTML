@@ -76,16 +76,15 @@
     </form>
     
     <script lengage="JavaScript">
-        //var body = document.getElementsByTagName('body')[0];
-        //var link = document.createElement('link');
 
         class Usuario{
+
             constructor(nombre, correo, contrasenia){
                 this.nombre = nombre;
                 this.correo = correo;
                 this.contrasenia = contrasenia;
-
             }
+            
         }
 
         function RegistrarUsuario(){
@@ -107,12 +106,10 @@
                     //valida que la contrase;a corresponda con la expresion
                     if(expresionContrasenia.test(contrasenia)==true){
                     
-                        //alert("Contrasenia valida");
-                                
                         if(contrasenia == document.getElementById("confirm-contraseña").value){
                             
                             var usuario = new Usuario(usuario, correo, contrasenia);
-
+                            
                             var cliente = {
                                 Usuario: usuario.nombre,
                                 Correo: usuario.correo,
@@ -120,9 +117,8 @@
                             };
                             
                             localStorage.setItem("cliente", JSON.stringify(cliente));
-                            alert(usuario.nombre+" Bienvendio");
+                            alert("Bienvendio " + usuario.nombre);
                             document.Registro.submit();
-
                             
                         }
                         else{
@@ -146,9 +142,8 @@
             }
             //valida que la contraseña corresponda con la expresion
             
-
-            
         }
+
     </script>
 </body>
 </html>
